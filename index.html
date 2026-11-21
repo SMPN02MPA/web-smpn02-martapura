@@ -12,7 +12,23 @@
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   
   <style>
-   /* ANIMASI DARI SEGALA ARAH */
+    body { font-family: 'Poppins', sans-serif; }
+    .sidebar-scroll::-webkit-scrollbar { width: 4px; }
+    .sidebar-scroll::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    
+    /* MENYEMBUNYIKAN LENCANA NETLIFY */
+    #netlify-badge, 
+    a[href*="netlify.com"][style*="fixed"] { 
+      display: none !important; 
+      opacity: 0 !important; 
+      visibility: hidden !important;
+    }
+    
+    /* PENGATURAN CSS GALERI FOTO PROFIL */
+    .profil-gallery::-webkit-scrollbar { height: 6px; }
+    .profil-gallery::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
+
+    /* ANIMASI DARI SEGALA ARAH */
     @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes fadeInDown { from { opacity: 0; transform: translateY(-40px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes fadeInLeft { from { opacity: 0; transform: translateX(-40px); } to { opacity: 1; transform: translateX(0); } }
@@ -30,18 +46,6 @@
     .delay-300 { animation-delay: 300ms; }
     .delay-400 { animation-delay: 400ms; }
     .opacity-0-init { opacity: 0; }
-    
-    /* MENYEMBUNYIKAN LENCANA NETLIFY */
-    #netlify-badge, 
-    a[href*="netlify.com"][style*="fixed"] { 
-      display: none !important; 
-      opacity: 0 !important; 
-      visibility: hidden !important;
-    }
-    
-    /* PENGATURAN CSS GALERI FOTO PROFIL */
-    .profil-gallery::-webkit-scrollbar { height: 6px; }
-    .profil-gallery::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
   </style>
 </head>
 <body class="flex h-screen overflow-hidden bg-slate-50 text-slate-800">
@@ -49,7 +53,7 @@
   <div id="sidebarOverlay" onclick="toggleSidebar()" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-30 hidden lg:hidden"></div>
   
   <!-- Sidebar Navigasi -->
-  <aside id="sidebar" class="fixed lg:static inset-y-0 left-0 z-40 w-72 bg-slate-900 text-slate-300 flex flex-col transition-all duration-300 -translate-x-full lg:translate-x-0 shadow-2xl">
+  <aside id="sidebar-menu" class="fixed lg:static inset-y-0 left-0 z-40 w-72 bg-slate-900 text-slate-300 flex flex-col transition-transform duration-300 ease-in-out lg:translate-x-0 shadow-2xl">
     <!-- Logo Area -->
     <div class="pt-8 pb-6 px-6 flex items-center gap-3.5 border-b border-slate-800/80">
       <img id="school-logo" src="assets/LOGO SMPN02MPA VERSI 2.png" alt="Logo SMPN 02 Martapura" class="w-12 h-12 object-contain flex-shrink-0 bg-white/5 rounded-xl p-1" />
@@ -139,16 +143,17 @@
   </aside>
   
   <!-- Main Content Area -->
-  <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+  <main id="main-content" class="flex-1 flex flex-col min-w-0 transition-all duration-300 ease-in-out relative overflow-hidden">
     <!-- Top Header -->
     <header class="bg-white border-b border-slate-200/80 px-6 py-4 flex items-center justify-between sticky top-0 z-20">
       <div class="flex items-center gap-4">
-        <button onclick="toggleSidebar()" class="lg:hidden p-2 rounded-xl text-slate-600 hover:bg-slate-100">
+        <!-- Tombol Hamburger -->
+        <button onclick="toggleSidebar()" class="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-100 text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 transition-colors">
           <i class="fas fa-bars text-lg"></i>
         </button>
         <div>
           <h1 id="page-title" class="text-lg font-bold text-slate-800">Beranda</h1>
-          <p class="text-xs text-slate-500">Sistem Informasi & Profil SMP Negeri 02 Martapura</p>
+          <p class="text-xs text-slate-500 hidden sm:block">Sistem Informasi & Profil SMP Negeri 02 Martapura</p>
         </div>
       </div>
       <div class="hidden sm:flex items-center gap-2 bg-indigo-50 text-indigo-700 px-3.5 py-1.5 rounded-full text-xs font-medium">
@@ -158,10 +163,11 @@
     </header>
     
     <!-- Dynamic Page Container -->
-    <main id="app-content" class="flex-1 overflow-y-auto p-6 lg:p-8 space-y-6">
+    <div id="app-content" class="flex-1 overflow-y-auto p-6 lg:p-8 space-y-6">
       <!-- Konten dimuat otomatis oleh JavaScript -->
-    </main>
-  </div>
+    </div>
+  </main>
+  
   <script>
     let siteData = {
       identitas: {
@@ -250,8 +256,12 @@
       }
       
       if (window.innerWidth < 1024) {
-        const sidebar = document.getElementById('sidebar');
-        if (!sidebar.classList.contains('-translate-x-full')) toggleSidebar();
+        const sidebar = document.getElementById('sidebar-menu');
+        if (!sidebar.classList.contains('-translate-x-full')) {
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.toggle('-translate-x-full');
+            if (overlay) overlay.classList.toggle('hidden');
+        }
       }
       renderPage(page);
     }
@@ -274,79 +284,83 @@
         titleEl.textContent = 'Beranda';
         const recentPengumuman = siteData.pengumuman.slice(0, 3);
         container.innerHTML = `
-          <!-- Hero Banner -->
-          <div class="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 rounded-3xl p-8 text-white shadow-xl relative overflow-hidden">
-            <div class="relative z-10 max-w-2xl space-y-4">
-              <span class="inline-block px-3 py-1 rounded-full bg-indigo-500/20 border border-indigo-400/30 text-indigo-300 text-xs font-medium">Portal Digital Sekolah</span>
-              <h2 class="text-2xl lg:text-3xl font-bold leading-snug">${siteData.identitas.nama}</h2>
-              <p class="text-slate-300 text-sm leading-relaxed">${siteData.identitas.sambutan}</p>
-              <div class="pt-2 flex flex-wrap gap-3">
-                <button onclick="navigate('ptk-guru')" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 rounded-xl text-xs font-semibold transition shadow-lg shadow-indigo-600/30">Direktori Guru</button>
-                <button onclick="navigate('siswa-pencapaian')" class="px-5 py-2.5 bg-white/10 hover:bg-white/20 rounded-xl text-xs font-semibold transition">Prestasi Siswa</button>
-              </div>
-            </div>
-          </div>
-          <!-- Statistik Ringkas -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            <div class="bg-white p-6 rounded-2xl border border-slate-200/70 shadow-sm flex items-center gap-4">
-              <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-lg"><i class="fas fa-chalkboard-teacher"></i></div>
-              <div>
-                <p class="text-xs text-slate-500">Tenaga Pendidik</p>
-                <p class="text-xl font-bold text-slate-800">${siteData.guru.length} Guru</p>
-              </div>
-            </div>
-            <div class="bg-white p-6 rounded-2xl border border-slate-200/70 shadow-sm flex items-center gap-4">
-              <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg"><i class="fas fa-user-tie"></i></div>
-              <div>
-                <p class="text-xs text-slate-500">Tenaga Administrasi</p>
-                <p class="text-xl font-bold text-slate-800">${siteData.administrasi.length} Staf</p>
-              </div>
-            </div>
-            <div class="bg-white p-6 rounded-2xl border border-slate-200/70 shadow-sm flex items-center gap-4">
-              <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg"><i class="fas fa-trophy"></i></div>
-              <div>
-                <p class="text-xs text-slate-500">Pencapaian Siswa</p>
-                <p class="text-xl font-bold text-slate-800">${siteData.prestasi_siswa.length} Prestasi</p>
-              </div>
-            </div>
-            <div class="bg-white p-6 rounded-2xl border border-slate-200/70 shadow-sm flex items-center gap-4">
-              <div class="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-lg"><i class="fas fa-flag"></i></div>
-              <div>
-                <p class="text-xs text-slate-500">Ekstrakurikuler</p>
-                <p class="text-xl font-bold text-slate-800">${siteData.ekskul.length} Kegiatan</p>
-              </div>
-            </div>
-          </div>
-          <!-- Pengumuman Terbaru -->
-          <div class="bg-white rounded-2xl border border-slate-200/70 p-6 shadow-sm">
-            <div class="flex items-center justify-between mb-5">
-              <h3 class="font-bold text-slate-800">Pengumuman Terbaru</h3>
-              <button onclick="navigate('pengumuman')" class="text-xs font-semibold text-indigo-600 hover:underline">Lihat Semua</button>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-              ${recentPengumuman.length ? recentPengumuman.map(item => `
-                <div class="p-5 rounded-2xl bg-slate-50 border border-slate-100 space-y-2">
-                  <div class="flex items-center justify-between text-[11px] font-semibold">
-                    <span class="px-2.5 py-0.5 rounded-md bg-indigo-100 text-indigo-700">${item.kategori || 'INFO'}</span>
-                    <span class="text-slate-400">${item.tanggal || ''}</span>
-                  </div>
-                  <h4 class="font-bold text-slate-800 text-sm">${item.judul}</h4>
-                  <p class="text-xs text-slate-600 leading-relaxed">${item.isi}</p>
+          <div class="animate-fade-in-up opacity-0-init space-y-6 anim-up">
+            <!-- Hero Banner -->
+            <div class="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 rounded-3xl p-8 text-white shadow-xl relative overflow-hidden">
+              <div class="relative z-10 max-w-2xl space-y-4">
+                <span class="inline-block px-3 py-1 rounded-full bg-indigo-500/20 border border-indigo-400/30 text-indigo-300 text-xs font-medium">Portal Digital Sekolah</span>
+                <h2 class="text-2xl lg:text-3xl font-bold leading-snug">${siteData.identitas.nama}</h2>
+                <p class="text-slate-300 text-sm leading-relaxed">${siteData.identitas.sambutan}</p>
+                <div class="pt-2 flex flex-wrap gap-3">
+                  <button onclick="navigate('ptk-guru')" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 rounded-xl text-xs font-semibold transition shadow-lg shadow-indigo-600/30">Direktori Guru</button>
+                  <button onclick="navigate('siswa-pencapaian')" class="px-5 py-2.5 bg-white/10 hover:bg-white/20 rounded-xl text-xs font-semibold transition">Prestasi Siswa</button>
                 </div>
-              `).join('') : '<p class="text-xs text-slate-400">Belum ada pengumuman.</p>'}
+              </div>
+            </div>
+            
+            <!-- Statistik Ringkas -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              <div class="bg-white p-6 rounded-2xl border border-slate-200/70 shadow-sm flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-lg"><i class="fas fa-chalkboard-teacher"></i></div>
+                <div>
+                  <p class="text-xs text-slate-500">Tenaga Pendidik</p>
+                  <p class="text-xl font-bold text-slate-800">${siteData.guru.length} Guru</p>
+                </div>
+              </div>
+              <div class="bg-white p-6 rounded-2xl border border-slate-200/70 shadow-sm flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg"><i class="fas fa-user-tie"></i></div>
+                <div>
+                  <p class="text-xs text-slate-500">Tenaga Administrasi</p>
+                  <p class="text-xl font-bold text-slate-800">${siteData.administrasi.length} Staf</p>
+                </div>
+              </div>
+              <div class="bg-white p-6 rounded-2xl border border-slate-200/70 shadow-sm flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg"><i class="fas fa-trophy"></i></div>
+                <div>
+                  <p class="text-xs text-slate-500">Pencapaian Siswa</p>
+                  <p class="text-xl font-bold text-slate-800">${siteData.prestasi_siswa.length} Prestasi</p>
+                </div>
+              </div>
+              <div class="bg-white p-6 rounded-2xl border border-slate-200/70 shadow-sm flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-lg"><i class="fas fa-flag"></i></div>
+                <div>
+                  <p class="text-xs text-slate-500">Ekstrakurikuler</p>
+                  <p class="text-xl font-bold text-slate-800">${siteData.ekskul.length} Kegiatan</p>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Pengumuman Terbaru -->
+            <div class="bg-white rounded-2xl border border-slate-200/70 p-6 shadow-sm">
+              <div class="flex items-center justify-between mb-5">
+                <h3 class="font-bold text-slate-800">Pengumuman Terbaru</h3>
+                <button onclick="navigate('pengumuman')" class="text-xs font-semibold text-indigo-600 hover:underline">Lihat Semua</button>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                ${recentPengumuman.length ? recentPengumuman.map(item => `
+                  <div class="p-5 rounded-2xl bg-slate-50 border border-slate-100 space-y-2">
+                    <div class="flex items-center justify-between text-[11px] font-semibold">
+                      <span class="px-2.5 py-0.5 rounded-md bg-indigo-100 text-indigo-700">${item.kategori || 'INFO'}</span>
+                      <span class="text-slate-400">${item.tanggal || ''}</span>
+                    </div>
+                    <h4 class="font-bold text-slate-800 text-sm">${item.judul}</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">${item.isi}</p>
+                  </div>
+                `).join('') : '<p class="text-xs text-slate-400">Belum ada pengumuman.</p>'}
+              </div>
             </div>
           </div>
         `;
       } 
       
-     // HALAMAN PROFIL SEKOLAH (JUDUL -> DESKRIPSI -> FOTO/GALERI)
+      // HALAMAN PROFIL SEKOLAH (JUDUL -> DESKRIPSI -> FOTO/GALERI)
       else if (page === 'profil') {
         titleEl.textContent = 'Profil Sekolah';
         container.innerHTML = `
-          <div class="space-y-8">
+          <div class="space-y-8 overflow-hidden">
             
-            <!-- PANEL 1: IDENTITAS SEKOLAH (Swipe) -->
-            <div class="bg-white rounded-3xl border border-slate-200/70 p-6 lg:p-8 shadow-sm">
+            <!-- PANEL 1: IDENTITAS SEKOLAH (Muncul dari Kiri) -->
+            <div class="bg-white rounded-3xl border border-slate-200/70 p-6 lg:p-8 shadow-sm opacity-0-init anim-left">
               <h2 class="text-2xl md:text-3xl font-bold text-indigo-700 mb-3">Identitas Sekolah</h2>
               <p class="text-sm md:text-base text-slate-600 leading-relaxed mb-6">
                 SMP Negeri 02 Martapura adalah instansi pendidikan menengah pertama berstatus negeri yang berlokasi di Kabupaten OKU Timur, Sumatera Selatan. Kami berkomitmen untuk mencetak generasi berprestasi, berakhlak mulia, dan berwawasan lingkungan.
@@ -369,8 +383,8 @@
               </div>
             </div>
 
-            <!-- PANEL 2: PROFIL KEPALA SEKOLAH (Satu Foto) -->
-            <div class="bg-white rounded-3xl border border-slate-200/70 p-6 lg:p-8 shadow-sm">
+            <!-- PANEL 2: PROFIL KEPALA SEKOLAH (Muncul dari Kanan) -->
+            <div class="bg-white rounded-3xl border border-slate-200/70 p-6 lg:p-8 shadow-sm opacity-0-init anim-right delay-100">
               <h2 class="text-2xl md:text-3xl font-bold text-indigo-700 mb-3">Profil Kepala Sekolah</h2>
               <p class="text-sm md:text-base text-slate-600 leading-relaxed mb-6">
                 Beliau adalah pimpinan yang berdedikasi tinggi dalam memajukan kualitas pendidikan dan karakter siswa di SMP Negeri 02 Martapura. 
@@ -378,27 +392,25 @@
                 <br><strong>NIP:</strong> (Isi NIP)
               </p>
               
-              <!-- Tempat Satu Foto -->
               <div class="flex justify-start">
                 <img src="assets/foto-kepsek.jpg" alt="Foto Kepala Sekolah" class="w-full md:w-1/2 lg:w-1/3 h-auto object-cover rounded-2xl border border-slate-200/70 shadow-sm bg-slate-100" />
               </div>
             </div>
 
-            <!-- PANEL 3: STRUKTUR ORGANISASI (Satu Foto) -->
-            <div class="bg-white rounded-3xl border border-slate-200/70 p-6 lg:p-8 shadow-sm">
+            <!-- PANEL 3: STRUKTUR ORGANISASI (Muncul dari Bawah) -->
+            <div class="bg-white rounded-3xl border border-slate-200/70 p-6 lg:p-8 shadow-sm opacity-0-init anim-up delay-200">
               <h2 class="text-2xl md:text-3xl font-bold text-indigo-700 mb-3">Struktur Organisasi</h2>
               <p class="text-sm md:text-base text-slate-600 leading-relaxed mb-6">
                 Berikut adalah bagan struktur organisasi serta pembagian tugas di lingkungan SMP Negeri 02 Martapura guna memastikan kelancaran kegiatan operasional dan akademik sekolah.
               </p>
               
-              <!-- Tempat Satu Foto (Bagan) -->
               <div class="flex justify-center">
                 <img src="assets/struktur-organisasi.jpg" alt="Bagan Struktur Organisasi" class="w-full h-auto object-contain rounded-2xl border border-slate-200/70 shadow-sm bg-white" />
               </div>
             </div>
 
-            <!-- PANEL 4: SARANA & PRASARANA (Swipe) -->
-            <div class="bg-white rounded-3xl border border-slate-200/70 p-6 lg:p-8 shadow-sm">
+            <!-- PANEL 4: SARANA & PRASARANA (Muncul dari Zoom/Tengah) -->
+            <div class="bg-white rounded-3xl border border-slate-200/70 p-6 lg:p-8 shadow-sm opacity-0-init anim-zoom delay-300">
               <h2 class="text-2xl md:text-3xl font-bold text-indigo-700 mb-3">Sarana & Prasarana</h2>
               <p class="text-sm md:text-base text-slate-600 leading-relaxed mb-6">
                 Untuk menunjang kegiatan belajar mengajar yang optimal, SMP Negeri 02 Martapura dilengkapi dengan berbagai fasilitas, mulai dari ruang kelas yang nyaman, perpustakaan digital, hingga laboratorium IPA dan Komputer.
@@ -421,8 +433,8 @@
               </div>
             </div>
 
-            <!-- PANEL 5: VISI & MISI (Swipe) -->
-            <div class="bg-white rounded-3xl border border-slate-200/70 p-6 lg:p-8 shadow-sm">
+            <!-- PANEL 5: VISI & MISI (Muncul dari Atas) -->
+            <div class="bg-white rounded-3xl border border-slate-200/70 p-6 lg:p-8 shadow-sm opacity-0-init anim-down delay-400">
               <h2 class="text-2xl md:text-3xl font-bold text-indigo-700 mb-3">Visi & Misi</h2>
               <p class="text-sm md:text-base text-slate-600 leading-relaxed mb-6">
                 Visi kami adalah mewujudkan peserta didik yang unggul dalam Imtaq, Iptek, dan berkarakter Profil Pelajar Pancasila.
@@ -445,53 +457,15 @@
             </div>
 
           </div>
-          // HALAMAN PROFIL SEKOLAH
-      else if (page === 'profil') {
-        titleEl.textContent = 'Profil Sekolah';
-        container.innerHTML = `
-          <div class="space-y-8 overflow-hidden">
-            
-            <!-- PANEL 1: IDENTITAS (Muncul dari Kiri) -->
-            <div class="bg-white rounded-3xl border border-slate-200/70 p-6 lg:p-8 shadow-sm opacity-0-init anim-left">
-              <h2 class="text-2xl md:text-3xl font-bold text-indigo-700 mb-3">Identitas Sekolah</h2>
-              <!-- ... (Isi Panel Identitas) ... -->
-            </div>
-
-            <!-- PANEL 2: KEPALA SEKOLAH (Muncul dari Kanan) -->
-            <div class="bg-white rounded-3xl border border-slate-200/70 p-6 lg:p-8 shadow-sm opacity-0-init anim-right delay-100">
-              <h2 class="text-2xl md:text-3xl font-bold text-indigo-700 mb-3">Profil Kepala Sekolah</h2>
-              <!-- ... (Isi Panel Kepala Sekolah) ... -->
-            </div>
-
-            <!-- PANEL 3: STRUKTUR ORGANISASI (Muncul dari Bawah) -->
-            <div class="bg-white rounded-3xl border border-slate-200/70 p-6 lg:p-8 shadow-sm opacity-0-init anim-up delay-200">
-              <h2 class="text-2xl md:text-3xl font-bold text-indigo-700 mb-3">Struktur Organisasi</h2>
-              <!-- ... (Isi Panel Struktur Organisasi) ... -->
-            </div>
-
-            <!-- PANEL 4: SARANA & PRASARANA (Muncul dari Zoom/Tengah) -->
-            <div class="bg-white rounded-3xl border border-slate-200/70 p-6 lg:p-8 shadow-sm opacity-0-init anim-zoom delay-300">
-              <h2 class="text-2xl md:text-3xl font-bold text-indigo-700 mb-3">Sarana & Prasarana</h2>
-              <!-- ... (Isi Panel Sarpras) ... -->
-            </div>
-
-            <!-- PANEL 5: VISI & MISI (Muncul dari Atas) -->
-            <div class="bg-white rounded-3xl border border-slate-200/70 p-6 lg:p-8 shadow-sm opacity-0-init anim-down delay-400">
-              <h2 class="text-2xl md:text-3xl font-bold text-indigo-700 mb-3">Visi & Misi</h2>
-              <!-- ... (Isi Panel Visi Misi) ... -->
-            </div>
-
-          </div>
         `;
       }
-        `;
-      }
+      
       // HALAMAN LAINNYA
       else if (page === 'ptk-guru') {
         titleEl.textContent = 'PTK - Daftar Guru';
         const filtered = siteData.guru.filter(g => g.nama.toLowerCase().includes(kw) || g.mapel.toLowerCase().includes(kw));
         container.innerHTML = `
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 opacity-0-init anim-up">
             ${filtered.length ? filtered.map(g => `
               <div class="bg-white rounded-2xl border border-slate-200/70 p-6 shadow-sm flex items-center gap-4">
                 ${g.foto 
@@ -512,7 +486,7 @@
         titleEl.textContent = 'PTK - Tenaga Administrasi';
         const filtered = siteData.administrasi.filter(a => a.nama.toLowerCase().includes(kw) || a.jabatan.toLowerCase().includes(kw));
         container.innerHTML = `
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 opacity-0-init anim-up">
             ${filtered.length ? filtered.map(a => `
               <div class="bg-white rounded-2xl border border-slate-200/70 p-6 shadow-sm flex items-center gap-4">
                 ${a.foto 
@@ -532,7 +506,7 @@
       else if (page === 'siswa-data') {
         titleEl.textContent = 'Siswa - Data & Rombel';
         container.innerHTML = `
-          <div class="bg-white rounded-2xl border border-slate-200/70 p-6 shadow-sm space-y-4">
+          <div class="bg-white rounded-2xl border border-slate-200/70 p-6 shadow-sm space-y-4 opacity-0-init anim-up">
             <h3 class="font-bold text-slate-800">Rombongan Belajar (Kelas VII, VIII, dan IX)</h3>
             <p class="text-sm text-slate-600">Informasi rekapitulasi peserta didik aktif SMP Negeri 02 Martapura per tingkat kelas.</p>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
@@ -556,7 +530,7 @@
         titleEl.textContent = 'Siswa - Pencapaian & Prestasi';
         const filtered = siteData.prestasi_siswa.filter(p => p.judul.toLowerCase().includes(kw) || p.nama_siswa.toLowerCase().includes(kw));
         container.innerHTML = `
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 opacity-0-init anim-up">
             ${filtered.length ? filtered.map(p => `
               <div class="bg-white rounded-2xl border border-slate-200/70 p-6 shadow-sm flex flex-col justify-between">
                 <div>
@@ -574,7 +548,7 @@
         titleEl.textContent = page === 'ekskul-daftar' ? 'Ekstrakurikuler - Daftar & Kegiatan' : 'Ekstrakurikuler - Pencapaian';
         const filtered = siteData.ekskul.filter(e => e.nama.toLowerCase().includes(kw) || e.deskripsi.toLowerCase().includes(kw));
         container.innerHTML = `
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 opacity-0-init anim-up">
             ${filtered.length ? filtered.map(e => `
               <div class="bg-white rounded-2xl border border-slate-200/70 p-6 shadow-sm">
                 ${renderMediaEmbed(e.foto, e.video_url, e.nama)}
@@ -592,7 +566,7 @@
         titleEl.textContent = 'Pengumuman Sekolah';
         const filtered = siteData.pengumuman.filter(item => item.judul.toLowerCase().includes(kw) || item.isi.toLowerCase().includes(kw));
         container.innerHTML = `
-          <div class="space-y-4 max-w-4xl">
+          <div class="space-y-4 max-w-4xl opacity-0-init anim-up">
             ${filtered.length ? filtered.map(item => `
               <div class="bg-white rounded-2xl border border-slate-200/70 p-6 shadow-sm space-y-2">
                 <div class="flex items-center gap-3 text-xs font-semibold">
@@ -620,21 +594,13 @@
     }
     
     function toggleSidebar() {
-      const sidebar = document.getElementById('sidebar');
-      const overlay = document.getElementById('sidebarOverlay');
-      sidebar.classList.toggle('-translate-x-full');
-      overlay.classList.toggle('hidden');
-    }
-    // FUNGSI UNTUK MENYEMBUNYIKAN/MENAMPILKAN SIDEBAR
-    function toggleSidebar() {
       const sidebar = document.getElementById('sidebar-menu');
-      const mainContent = document.getElementById('main-content');
+      const overlay = document.getElementById('sidebarOverlay');
       
-      // Menggeser sidebar keluar layar
       sidebar.classList.toggle('-translate-x-full');
-      
-      // Jika di desktop, buat konten utama melebar saat sidebar disembunyikan
-      mainContent.classList.toggle('lg:ml-72');
+      if (overlay) {
+          overlay.classList.toggle('hidden');
+      }
     }
     
     if (window.netlifyIdentity) {
