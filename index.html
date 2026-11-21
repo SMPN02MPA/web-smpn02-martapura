@@ -23,18 +23,10 @@
       opacity: 0 !important; 
       visibility: hidden !important;
     }
-    /* PENGATURAN CSS SLIDER PANEL PROFIL */
-    .profil-slider-container { width: 100%; overflow: hidden; }
-    .profil-slider { 
-      display: flex; 
-      gap: 20px; 
-      overflow-x: auto; 
-      padding-bottom: 20px; 
-      scroll-snap-type: x mandatory; 
-    }
-    .profil-slider::-webkit-scrollbar { height: 6px; }
-    .profil-slider::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
-    .panel-card { flex: 0 0 320px; scroll-snap-align: start; }
+    
+    /* PENGATURAN CSS GALERI FOTO PROFIL */
+    .profil-gallery::-webkit-scrollbar { height: 6px; }
+    .profil-gallery::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
   </style>
 </head>
 <body class="flex h-screen overflow-hidden bg-slate-50 text-slate-800">
@@ -43,7 +35,6 @@
   
   <!-- Sidebar Navigasi -->
   <aside id="sidebar" class="fixed lg:static inset-y-0 left-0 z-40 w-72 bg-slate-900 text-slate-300 flex flex-col transition-all duration-300 -translate-x-full lg:translate-x-0 shadow-2xl">
-    
     <!-- Logo Area -->
     <div class="pt-8 pb-6 px-6 flex items-center gap-3.5 border-b border-slate-800/80">
       <img id="school-logo" src="assets/LOGO SMPN02MPA VERSI 2.png" alt="Logo SMPN 02 Martapura" class="w-12 h-12 object-contain flex-shrink-0 bg-white/5 rounded-xl p-1" />
@@ -52,6 +43,7 @@
         <p id="school-full-name" class="text-[11px] text-slate-400 leading-tight">SMP Negeri 02 Martapura</p>
       </div>
     </div>
+    
     <!-- Search Bar -->
     <div class="px-5 py-4 border-b border-slate-800/80">
       <div class="bg-slate-800/70 rounded-xl px-3.5 py-2.5 flex items-center gap-2.5 border border-slate-700/50 focus-within:border-indigo-500 transition">
@@ -59,6 +51,7 @@
         <input id="searchInput" type="text" onkeyup="handleSearch(this.value)" placeholder="Cari data, guru, prestasi..." class="bg-transparent text-xs text-white placeholder-slate-400 focus:outline-none w-full" />
       </div>
     </div>
+    
     <!-- Navigation Menu -->
     <nav class="flex-1 px-4 py-5 space-y-1.5 overflow-y-auto sidebar-scroll text-sm">
       <button onclick="navigate('beranda')" data-nav="beranda" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium transition text-left bg-indigo-600 text-white shadow-lg shadow-indigo-600/20">
@@ -69,6 +62,7 @@
         <i class="fas fa-school w-5 text-center"></i>
         <span>Profil Sekolah</span>
       </button>
+      
       <!-- Dropdown PTK -->
       <div>
         <button onclick="toggleDropdown('dropdown-ptk', 'arrow-ptk')" data-parent="ptk" class="parent-nav w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition">
@@ -79,14 +73,11 @@
           <i id="arrow-ptk" class="fas fa-chevron-down text-xs transition-transform duration-200"></i>
         </button>
         <div id="dropdown-ptk" class="hidden pl-9 pr-2 pt-1 space-y-1">
-          <button onclick="navigate('ptk-guru')" data-nav="ptk-guru" data-parent-ref="ptk" class="nav-item w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-800/70 transition">
-            Guru
-          </button>
-          <button onclick="navigate('ptk-admin')" data-nav="ptk-admin" data-parent-ref="ptk" class="nav-item w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-800/70 transition">
-            Tenaga Administrasi
-          </button>
+          <button onclick="navigate('ptk-guru')" data-nav="ptk-guru" data-parent-ref="ptk" class="nav-item w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-800/70 transition">Guru</button>
+          <button onclick="navigate('ptk-admin')" data-nav="ptk-admin" data-parent-ref="ptk" class="nav-item w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-800/70 transition">Tenaga Administrasi</button>
         </div>
       </div>
+      
       <!-- Dropdown Siswa -->
       <div>
         <button onclick="toggleDropdown('dropdown-siswa', 'arrow-siswa')" data-parent="siswa" class="parent-nav w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition">
@@ -97,14 +88,11 @@
           <i id="arrow-siswa" class="fas fa-chevron-down text-xs transition-transform duration-200"></i>
         </button>
         <div id="dropdown-siswa" class="hidden pl-9 pr-2 pt-1 space-y-1">
-          <button onclick="navigate('siswa-data')" data-nav="siswa-data" data-parent-ref="siswa" class="nav-item w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-800/70 transition">
-            Data & Rombel
-          </button>
-          <button onclick="navigate('siswa-pencapaian')" data-nav="siswa-pencapaian" data-parent-ref="siswa" class="nav-item w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-800/70 transition">
-            Pencapaian
-          </button>
+          <button onclick="navigate('siswa-data')" data-nav="siswa-data" data-parent-ref="siswa" class="nav-item w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-800/70 transition">Data & Rombel</button>
+          <button onclick="navigate('siswa-pencapaian')" data-nav="siswa-pencapaian" data-parent-ref="siswa" class="nav-item w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-800/70 transition">Pencapaian</button>
         </div>
       </div>
+      
       <!-- Dropdown Ekstrakurikuler -->
       <div>
         <button onclick="toggleDropdown('dropdown-ekskul', 'arrow-ekskul')" data-parent="ekskul" class="parent-nav w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition">
@@ -115,19 +103,17 @@
           <i id="arrow-ekskul" class="fas fa-chevron-down text-xs transition-transform duration-200"></i>
         </button>
         <div id="dropdown-ekskul" class="hidden pl-9 pr-2 pt-1 space-y-1">
-          <button onclick="navigate('ekskul-daftar')" data-nav="ekskul-daftar" data-parent-ref="ekskul" class="nav-item w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-800/70 transition">
-            Daftar & Kegiatan
-          </button>
-          <button onclick="navigate('ekskul-pencapaian')" data-nav="ekskul-pencapaian" data-parent-ref="ekskul" class="nav-item w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-800/70 transition">
-            Pencapaian
-          </button>
+          <button onclick="navigate('ekskul-daftar')" data-nav="ekskul-daftar" data-parent-ref="ekskul" class="nav-item w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-800/70 transition">Daftar & Kegiatan</button>
+          <button onclick="navigate('ekskul-pencapaian')" data-nav="ekskul-pencapaian" data-parent-ref="ekskul" class="nav-item w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-800/70 transition">Pencapaian</button>
         </div>
       </div>
+      
       <button onclick="navigate('pengumuman')" data-nav="pengumuman" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition text-left">
         <i class="fas fa-bullhorn w-5 text-center"></i>
         <span>Pengumuman</span>
       </button>
     </nav>
+    
     <!-- Footer Sidebar / Akses Admin -->
     <div class="p-4 border-t border-slate-800/80">
       <a href="/admin/" class="flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl bg-slate-800 hover:bg-indigo-600 text-xs font-medium text-slate-300 hover:text-white transition">
@@ -136,9 +122,9 @@
       </a>
     </div>
   </aside>
+  
   <!-- Main Content Area -->
   <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
-    
     <!-- Top Header -->
     <header class="bg-white border-b border-slate-200/80 px-6 py-4 flex items-center justify-between sticky top-0 z-20">
       <div class="flex items-center gap-4">
@@ -155,13 +141,13 @@
         <span>Tahun Ajaran 2026/2027</span>
       </div>
     </header>
+    
     <!-- Dynamic Page Container -->
     <main id="app-content" class="flex-1 overflow-y-auto p-6 lg:p-8 space-y-6">
       <!-- Konten dimuat otomatis oleh JavaScript -->
     </main>
   </div>
   <script>
-    // Data default (otomatis tertimpa oleh isi file data.json)
     let siteData = {
       identitas: {
         nama: "SMP Negeri 02 Martapura",
@@ -169,15 +155,11 @@
         logo: "assets/LOGO SMPN02MPA VERSI 2.png",
         sambutan: "Selamat datang di portal resmi SMP Negeri 02 Martapura. Temukan informasi akademik, kegiatan siswa, serta prestasi membanggakan dari keluarga besar sekolah kami."
       },
-      pengumuman: [],
-      guru: [],
-      administrasi: [],
-      prestasi_siswa: [],
-      ekskul: []
+      pengumuman: [], guru: [], administrasi: [], prestasi_siswa: [], ekskul: []
     };
+    
     let currentPage = 'beranda';
     
-    // Memuat data dari data.json
     async function loadSchoolData() {
       try {
         const response = await fetch('data.json?v=' + new Date().getTime());
@@ -188,7 +170,7 @@
       } catch (err) {
         console.log('Menggunakan data lokal awal.');
       }
-      // Perbarui identitas di Sidebar
+      
       if (siteData.identitas) {
         document.getElementById('school-short-name').textContent = siteData.identitas.singkatan || 'SMPN 02 MPA';
         document.getElementById('school-full-name').textContent = siteData.identitas.nama || 'SMP Negeri 02 Martapura';
@@ -199,7 +181,6 @@
       renderPage(currentPage);
     }
     
-    // Helper mengubah link YouTube menjadi embed player
     function renderMediaEmbed(foto, videoUrl, altText) {
       let html = '';
       if (foto) {
@@ -228,20 +209,17 @@
     function navigate(page) {
       currentPage = page;
       document.getElementById('searchInput').value = '';
-      // Reset semua highlight menu
+      
       document.querySelectorAll('.nav-item').forEach(el => {
         el.classList.remove('bg-indigo-600', 'text-white', 'shadow-lg', 'shadow-indigo-600/20');
-        if (el.dataset.parentRef) {
-          el.classList.add('text-slate-400');
-        } else {
-          el.classList.add('text-slate-300');
-        }
+        if (el.dataset.parentRef) el.classList.add('text-slate-400');
+        else el.classList.add('text-slate-300');
       });
       document.querySelectorAll('.parent-nav').forEach(el => {
         el.classList.remove('text-indigo-400', 'bg-slate-800/60');
         el.classList.add('text-slate-300');
       });
-      // Aktifkan tombol yang diklik
+      
       const activeBtn = document.querySelector(`[data-nav="${page}"]`);
       if (activeBtn) {
         activeBtn.classList.remove('text-slate-300', 'text-slate-400');
@@ -255,14 +233,21 @@
           }
         }
       }
-      // Tutup sidebar di mobile
+      
       if (window.innerWidth < 1024) {
         const sidebar = document.getElementById('sidebar');
-        if (!sidebar.classList.contains('-translate-x-full')) {
-          toggleSidebar();
-        }
+        if (!sidebar.classList.contains('-translate-x-full')) toggleSidebar();
       }
       renderPage(page);
+    }
+    
+    // Fungsi khusus geser galeri foto dengan ID dinamis
+    function scrollGallery(galleryId, direction) {
+      const gallery = document.getElementById(galleryId);
+      if (gallery) {
+        const scrollAmount = 320; 
+        gallery.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+      }
     }
     
     function renderPage(page, filterKeyword = '') {
@@ -339,86 +324,94 @@
         `;
       } 
       
-      // HALAMAN PROFIL SEKOLAH (DENGAN 5 PANEL SLIDER BARU)
+      // HALAMAN PROFIL SEKOLAH (JUDUL -> DESKRIPSI -> SWIPE GALERI)
       else if (page === 'profil') {
         titleEl.textContent = 'Profil Sekolah';
         container.innerHTML = `
-          <div class="space-y-6">
-            <!-- Header Profil -->
-            <div class="bg-white rounded-2xl border border-slate-200/70 p-6 shadow-sm flex flex-wrap items-center gap-5">
-              <img src="${siteData.identitas.logo}" alt="Logo" class="w-16 h-16 object-contain" />
-              <div>
-                <h2 class="text-xl font-bold text-slate-800">${siteData.identitas.nama}</h2>
-                <p class="text-sm text-slate-500">Martapura, Kabupaten OKU Timur, Sumatera Selatan</p>
-              </div>
-            </div>
-            <!-- Panel Slider 5 Kotak -->
-            <div class="profil-slider-container">
-              <div class="profil-slider">
+          <div class="space-y-8">
+            
+            <!-- PANEL 1: IDENTITAS SEKOLAH -->
+            <div class="bg-white rounded-3xl border border-slate-200/70 p-6 lg:p-8 shadow-sm">
+              <h2 class="text-2xl md:text-3xl font-bold text-indigo-700 mb-3">Identitas Sekolah</h2>
+              <p class="text-sm md:text-base text-slate-600 leading-relaxed mb-6">
+                SMP Negeri 02 Martapura adalah instansi pendidikan menengah pertama berstatus negeri yang berlokasi di Kabupaten OKU Timur, Sumatera Selatan. Kami berkomitmen untuk mencetak generasi berprestasi, berakhlak mulia, dan berwawasan lingkungan.
+              </p>
+              
+              <!-- Galeri Foto Identitas (Swipe) -->
+              <div class="relative group">
+                <button onclick="scrollGallery('galeri-identitas', -1)" class="absolute left-2 top-[45%] -translate-y-1/2 bg-white/90 backdrop-blur border border-slate-200 w-10 h-10 rounded-full shadow-lg z-10 flex items-center justify-center text-slate-600 hover:text-indigo-600 hover:bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <i class="fas fa-chevron-left"></i>
+                </button>
                 
-                <!-- Panel 1: Identitas -->
-                <div class="panel-card bg-white rounded-2xl border border-slate-200/70 shadow-sm flex flex-col overflow-hidden">
-                  <img src="assets/foto-identitas.jpg" alt="Identitas Sekolah" class="w-full h-40 object-cover bg-slate-100" />
-                  <div class="p-5 space-y-3">
-                    <h3 class="font-bold text-indigo-700 border-b border-slate-100 pb-2">Identitas Sekolah</h3>
-                    <div class="text-sm text-slate-600 space-y-1">
-                      <p><strong>NPSN:</strong> (Isi NPSN)</p>
-                      <p><strong>Status:</strong> Negeri</p>
-                      <p><strong>Jenjang:</strong> SMP</p>
-                      <p><strong>Akreditasi:</strong> (Isi)</p>
-                    </div>
-                  </div>
+                <div id="galeri-identitas" class="profil-gallery flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 scroll-smooth">
+                  <!-- Slot Foto 1 -->
+                  <img src="assets/foto-identitas1.jpg" alt="Foto 1" class="snap-center shrink-0 w-72 md:w-80 h-48 md:h-56 object-cover rounded-2xl border border-slate-200/70 shadow-sm bg-slate-100" />
+                  <!-- Slot Foto 2 -->
+                  <img src="assets/foto-identitas2.jpg" alt="Foto 2" class="snap-center shrink-0 w-72 md:w-80 h-48 md:h-56 object-cover rounded-2xl border border-slate-200/70 shadow-sm bg-slate-100" />
+                  <!-- Slot Foto 3 -->
+                  <img src="assets/foto-identitas3.jpg" alt="Foto 3" class="snap-center shrink-0 w-72 md:w-80 h-48 md:h-56 object-cover rounded-2xl border border-slate-200/70 shadow-sm bg-slate-100" />
                 </div>
-                <!-- Panel 2: Kepsek -->
-                <div class="panel-card bg-white rounded-2xl border border-slate-200/70 shadow-sm flex flex-col overflow-hidden">
-                  <img src="assets/foto-kepsek.jpg" alt="Kepala Sekolah" class="w-full h-40 object-cover object-top bg-slate-100" />
-                  <div class="p-5 space-y-3">
-                    <h3 class="font-bold text-indigo-700 border-b border-slate-100 pb-2">Kepala Sekolah</h3>
-                    <div class="text-sm text-slate-600 space-y-1">
-                      <p><strong>Nama:</strong> (Isi Nama)</p>
-                      <p><strong>NIP:</strong> (Isi NIP)</p>
-                      <p><strong>Pendidikan:</strong> (Isi Riwayat)</p>
-                    </div>
-                  </div>
-                </div>
-                <!-- Panel 3: Visi Misi -->
-                <div class="panel-card bg-white rounded-2xl border border-slate-200/70 shadow-sm flex flex-col overflow-hidden">
-                  <img src="assets/foto-visimisi.jpg" alt="Visi Misi" class="w-full h-40 object-cover bg-slate-100" />
-                  <div class="p-5 space-y-3">
-                    <h3 class="font-bold text-indigo-700 border-b border-slate-100 pb-2">Visi & Misi</h3>
-                    <div class="text-sm text-slate-600 space-y-1">
-                      <p><strong>Visi:</strong> (Isi Visi)</p>
-                      <p><strong>Misi:</strong> (Isi Misi)</p>
-                    </div>
-                  </div>
-                </div>
-                <!-- Panel 4: Struktur -->
-                <div class="panel-card bg-white rounded-2xl border border-slate-200/70 shadow-sm flex flex-col overflow-hidden">
-                  <img src="assets/struktur-organisasi.jpg" alt="Struktur Organisasi" class="w-full h-40 object-contain bg-slate-100" />
-                  <div class="p-5 space-y-3">
-                    <h3 class="font-bold text-indigo-700 border-b border-slate-100 pb-2">Struktur Organisasi</h3>
-                    <p class="text-sm text-slate-600">Bagan struktur organisasi SMP Negeri 02 Martapura.</p>
-                  </div>
-                </div>
-                <!-- Panel 5: Sarpras -->
-                <div class="panel-card bg-white rounded-2xl border border-slate-200/70 shadow-sm flex flex-col overflow-hidden">
-                  <img src="assets/foto-sarpras.jpg" alt="Sarpras" class="w-full h-40 object-cover bg-slate-100" />
-                  <div class="p-5 space-y-3">
-                    <h3 class="font-bold text-indigo-700 border-b border-slate-100 pb-2">Sarana & Prasarana</h3>
-                    <ul class="text-sm text-slate-600 list-disc pl-4 space-y-1">
-                      <li>Ruang Kelas</li>
-                      <li>Perpustakaan & Laboratorium</li>
-                      <li>Ruang UKS</li>
-                      <li>Lapangan Olahraga</li>
-                    </ul>
-                  </div>
-                </div>
+                
+                <button onclick="scrollGallery('galeri-identitas', 1)" class="absolute right-2 top-[45%] -translate-y-1/2 bg-white/90 backdrop-blur border border-slate-200 w-10 h-10 rounded-full shadow-lg z-10 flex items-center justify-center text-slate-600 hover:text-indigo-600 hover:bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <i class="fas fa-chevron-right"></i>
+                </button>
               </div>
             </div>
+
+            <!-- PANEL 2: SARANA & PRASARANA -->
+            <div class="bg-white rounded-3xl border border-slate-200/70 p-6 lg:p-8 shadow-sm">
+              <h2 class="text-2xl md:text-3xl font-bold text-indigo-700 mb-3">Sarana & Prasarana</h2>
+              <p class="text-sm md:text-base text-slate-600 leading-relaxed mb-6">
+                Untuk menunjang kegiatan belajar mengajar yang optimal, SMP Negeri 02 Martapura dilengkapi dengan berbagai fasilitas, mulai dari ruang kelas yang nyaman, perpustakaan digital, hingga laboratorium IPA dan Komputer.
+              </p>
+              
+              <!-- Galeri Foto Sarpras (Swipe) -->
+              <div class="relative group">
+                <button onclick="scrollGallery('galeri-sarpras', -1)" class="absolute left-2 top-[45%] -translate-y-1/2 bg-white/90 backdrop-blur border border-slate-200 w-10 h-10 rounded-full shadow-lg z-10 flex items-center justify-center text-slate-600 hover:text-indigo-600 hover:bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <i class="fas fa-chevron-left"></i>
+                </button>
+                
+                <div id="galeri-sarpras" class="profil-gallery flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 scroll-smooth">
+                  <img src="assets/foto-sarpras1.jpg" alt="Sarpras 1" class="snap-center shrink-0 w-72 md:w-80 h-48 md:h-56 object-cover rounded-2xl border border-slate-200/70 shadow-sm bg-slate-100" />
+                  <img src="assets/foto-sarpras2.jpg" alt="Sarpras 2" class="snap-center shrink-0 w-72 md:w-80 h-48 md:h-56 object-cover rounded-2xl border border-slate-200/70 shadow-sm bg-slate-100" />
+                  <img src="assets/foto-sarpras3.jpg" alt="Sarpras 3" class="snap-center shrink-0 w-72 md:w-80 h-48 md:h-56 object-cover rounded-2xl border border-slate-200/70 shadow-sm bg-slate-100" />
+                </div>
+                
+                <button onclick="scrollGallery('galeri-sarpras', 1)" class="absolute right-2 top-[45%] -translate-y-1/2 bg-white/90 backdrop-blur border border-slate-200 w-10 h-10 rounded-full shadow-lg z-10 flex items-center justify-center text-slate-600 hover:text-indigo-600 hover:bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <i class="fas fa-chevron-right"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- PANEL 3: VISI & MISI -->
+            <div class="bg-white rounded-3xl border border-slate-200/70 p-6 lg:p-8 shadow-sm">
+              <h2 class="text-2xl md:text-3xl font-bold text-indigo-700 mb-3">Visi & Misi</h2>
+              <p class="text-sm md:text-base text-slate-600 leading-relaxed mb-6">
+                Visi kami adalah mewujudkan peserta didik yang unggul dalam Imtaq, Iptek, dan berkarakter Profil Pelajar Pancasila.
+              </p>
+              
+              <!-- Galeri Foto Visi Misi (Swipe) -->
+              <div class="relative group">
+                <button onclick="scrollGallery('galeri-visimisi', -1)" class="absolute left-2 top-[45%] -translate-y-1/2 bg-white/90 backdrop-blur border border-slate-200 w-10 h-10 rounded-full shadow-lg z-10 flex items-center justify-center text-slate-600 hover:text-indigo-600 hover:bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <i class="fas fa-chevron-left"></i>
+                </button>
+                
+                <div id="galeri-visimisi" class="profil-gallery flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 scroll-smooth">
+                  <img src="assets/foto-visimisi1.jpg" alt="Visi 1" class="snap-center shrink-0 w-72 md:w-80 h-48 md:h-56 object-cover rounded-2xl border border-slate-200/70 shadow-sm bg-slate-100" />
+                  <img src="assets/foto-visimisi2.jpg" alt="Visi 2" class="snap-center shrink-0 w-72 md:w-80 h-48 md:h-56 object-cover rounded-2xl border border-slate-200/70 shadow-sm bg-slate-100" />
+                </div>
+                
+                <button onclick="scrollGallery('galeri-visimisi', 1)" class="absolute right-2 top-[45%] -translate-y-1/2 bg-white/90 backdrop-blur border border-slate-200 w-10 h-10 rounded-full shadow-lg z-10 flex items-center justify-center text-slate-600 hover:text-indigo-600 hover:bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <i class="fas fa-chevron-right"></i>
+                </button>
+              </div>
+            </div>
+
           </div>
         `;
       }
       
+      // HALAMAN LAINNYA
       else if (page === 'ptk-guru') {
         titleEl.textContent = 'PTK - Daftar Guru';
         const filtered = siteData.guru.filter(g => g.nama.toLowerCase().includes(kw) || g.mapel.toLowerCase().includes(kw));
@@ -440,7 +433,6 @@
           </div>
         `;
       }
-      
       else if (page === 'ptk-admin') {
         titleEl.textContent = 'PTK - Tenaga Administrasi';
         const filtered = siteData.administrasi.filter(a => a.nama.toLowerCase().includes(kw) || a.jabatan.toLowerCase().includes(kw));
@@ -462,7 +454,6 @@
           </div>
         `;
       }
-      
       else if (page === 'siswa-data') {
         titleEl.textContent = 'Siswa - Data & Rombel';
         container.innerHTML = `
@@ -486,7 +477,6 @@
           </div>
         `;
       }
-      
       else if (page === 'siswa-pencapaian') {
         titleEl.textContent = 'Siswa - Pencapaian & Prestasi';
         const filtered = siteData.prestasi_siswa.filter(p => p.judul.toLowerCase().includes(kw) || p.nama_siswa.toLowerCase().includes(kw));
@@ -505,7 +495,6 @@
           </div>
         `;
       }
-      
       else if (page === 'ekskul-daftar' || page === 'ekskul-pencapaian') {
         titleEl.textContent = page === 'ekskul-daftar' ? 'Ekstrakurikuler - Daftar & Kegiatan' : 'Ekstrakurikuler - Pencapaian';
         const filtered = siteData.ekskul.filter(e => e.nama.toLowerCase().includes(kw) || e.deskripsi.toLowerCase().includes(kw));
@@ -524,7 +513,6 @@
           </div>
         `;
       }
-      
       else if (page === 'pengumuman') {
         titleEl.textContent = 'Pengumuman Sekolah';
         const filtered = siteData.pengumuman.filter(item => item.judul.toLowerCase().includes(kw) || item.isi.toLowerCase().includes(kw));
@@ -563,7 +551,6 @@
       overlay.classList.toggle('hidden');
     }
     
-    // Redirect otomatis ke halaman /admin/ setelah login Netlify Identity berhasil
     if (window.netlifyIdentity) {
       window.netlifyIdentity.on("init", user => {
         if (!user) {
