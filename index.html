@@ -7,12 +7,35 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  
   <!-- Widget Autentikasi Admin Netlify -->
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  
   <style>
     body { font-family: 'Poppins', sans-serif; }
     .sidebar-scroll::-webkit-scrollbar { width: 4px; }
     .sidebar-scroll::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    
+    /* MENYEMBUNYIKAN LENCANA NETLIFY */
+    #netlify-badge, 
+    a[href*="netlify.com"][style*="fixed"] { 
+      display: none !important; 
+      opacity: 0 !important; 
+      visibility: hidden !important;
+    }
+
+    /* PENGATURAN CSS SLIDER PANEL PROFIL */
+    .profil-slider-container { width: 100%; overflow: hidden; }
+    .profil-slider { 
+      display: flex; 
+      gap: 20px; 
+      overflow-x: auto; 
+      padding-bottom: 20px; 
+      scroll-snap-type: x mandatory; 
+    }
+    .profil-slider::-webkit-scrollbar { height: 6px; }
+    .profil-slider::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
+    .panel-card { flex: 0 0 320px; scroll-snap-align: start; }
   </style>
 </head>
 <body class="flex h-screen overflow-hidden bg-slate-50 text-slate-800">
@@ -340,24 +363,93 @@
           </div>
         `;
       } 
+      
+      // HALAMAN PROFIL SEKOLAH (DENGAN 5 PANEL SLIDER BARU)
       else if (page === 'profil') {
         titleEl.textContent = 'Profil Sekolah';
         container.innerHTML = `
-          <div class="bg-white rounded-2xl border border-slate-200/70 p-8 shadow-sm max-w-4xl space-y-6">
-            <div class="flex items-center gap-5 border-b border-slate-100 pb-6">
-              <img src="${siteData.identitas.logo}" alt="Logo" class="w-20 h-20 object-contain" />
+          <div class="space-y-6">
+            <!-- Header Profil -->
+            <div class="bg-white rounded-2xl border border-slate-200/70 p-6 shadow-sm flex flex-wrap items-center gap-5">
+              <img src="${siteData.identitas.logo}" alt="Logo" class="w-16 h-16 object-contain" />
               <div>
                 <h2 class="text-xl font-bold text-slate-800">${siteData.identitas.nama}</h2>
-                <p class="text-sm text-slate-500">Martapura, Kabupaten Ogan Komering Ulu Timur, Sumatera Selatan</p>
+                <p class="text-sm text-slate-500">Martapura, Kabupaten OKU Timur, Sumatera Selatan</p>
               </div>
             </div>
-            <div class="space-y-3">
-              <h3 class="font-bold text-slate-800">Sambutan & Gambaran Umum</h3>
-              <p class="text-sm text-slate-600 leading-relaxed">${siteData.identitas.sambutan}</p>
+
+            <!-- Panel Slider 5 Kotak -->
+            <div class="profil-slider-container">
+              <div class="profil-slider">
+                
+                <!-- Panel 1: Identitas -->
+                <div class="panel-card bg-white rounded-2xl border border-slate-200/70 shadow-sm flex flex-col overflow-hidden">
+                  <img src="assets/foto-identitas.jpg" alt="Identitas Sekolah" class="w-full h-40 object-cover bg-slate-100" />
+                  <div class="p-5 space-y-3">
+                    <h3 class="font-bold text-indigo-700 border-b border-slate-100 pb-2">Identitas Sekolah</h3>
+                    <div class="text-sm text-slate-600 space-y-1">
+                      <p><strong>NPSN:</strong> (Isi NPSN)</p>
+                      <p><strong>Status:</strong> Negeri</p>
+                      <p><strong>Jenjang:</strong> SMP</p>
+                      <p><strong>Akreditasi:</strong> (Isi)</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Panel 2: Kepsek -->
+                <div class="panel-card bg-white rounded-2xl border border-slate-200/70 shadow-sm flex flex-col overflow-hidden">
+                  <img src="assets/foto-kepsek.jpg" alt="Kepala Sekolah" class="w-full h-40 object-cover object-top bg-slate-100" />
+                  <div class="p-5 space-y-3">
+                    <h3 class="font-bold text-indigo-700 border-b border-slate-100 pb-2">Kepala Sekolah</h3>
+                    <div class="text-sm text-slate-600 space-y-1">
+                      <p><strong>Nama:</strong> (Isi Nama)</p>
+                      <p><strong>NIP:</strong> (Isi NIP)</p>
+                      <p><strong>Pendidikan:</strong> (Isi Riwayat)</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Panel 3: Visi Misi -->
+                <div class="panel-card bg-white rounded-2xl border border-slate-200/70 shadow-sm flex flex-col overflow-hidden">
+                  <img src="assets/foto-visimisi.jpg" alt="Visi Misi" class="w-full h-40 object-cover bg-slate-100" />
+                  <div class="p-5 space-y-3">
+                    <h3 class="font-bold text-indigo-700 border-b border-slate-100 pb-2">Visi & Misi</h3>
+                    <div class="text-sm text-slate-600 space-y-1">
+                      <p><strong>Visi:</strong> (Isi Visi)</p>
+                      <p><strong>Misi:</strong> (Isi Misi)</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Panel 4: Struktur -->
+                <div class="panel-card bg-white rounded-2xl border border-slate-200/70 shadow-sm flex flex-col overflow-hidden">
+                  <img src="assets/struktur-organisasi.jpg" alt="Struktur Organisasi" class="w-full h-40 object-contain bg-slate-100" />
+                  <div class="p-5 space-y-3">
+                    <h3 class="font-bold text-indigo-700 border-b border-slate-100 pb-2">Struktur Organisasi</h3>
+                    <p class="text-sm text-slate-600">Bagan struktur organisasi SMP Negeri 02 Martapura.</p>
+                  </div>
+                </div>
+
+                <!-- Panel 5: Sarpras -->
+                <div class="panel-card bg-white rounded-2xl border border-slate-200/70 shadow-sm flex flex-col overflow-hidden">
+                  <img src="assets/foto-sarpras.jpg" alt="Sarpras" class="w-full h-40 object-cover bg-slate-100" />
+                  <div class="p-5 space-y-3">
+                    <h3 class="font-bold text-indigo-700 border-b border-slate-100 pb-2">Sarana & Prasarana</h3>
+                    <ul class="text-sm text-slate-600 list-disc pl-4 space-y-1">
+                      <li>Ruang Kelas</li>
+                      <li>Perpustakaan & Laboratorium</li>
+                      <li>Ruang UKS</li>
+                      <li>Lapangan Olahraga</li>
+                    </ul>
+                  </div>
+                </div>
+
+              </div>
             </div>
           </div>
         `;
       }
+
       else if (page === 'ptk-guru') {
         titleEl.textContent = 'PTK - Daftar Guru';
         const filtered = siteData.guru.filter(g => g.nama.toLowerCase().includes(kw) || g.mapel.toLowerCase().includes(kw));
