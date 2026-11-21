@@ -1,0 +1,48 @@
+{
+  "identitas": {
+    "nama": "SMP Negeri 02 Martapura",
+    "singkatan": "SMPN 02 MPA",
+    "logo": "assets/LOGO SMPN02MPA VERSI 2.png",
+    "sambutan": "Selamat datang di portal resmi SMP Negeri 02 Martapura. Temukan informasi akademik, kegiatan siswa, serta prestasi membanggakan dari keluarga besar sekolah kami."
+  },
+  "pengumuman": [
+    {
+      "judul": "Seleksi Anggota Baru",
+      "tanggal": "21 NOV 2026",
+      "kategori": "PASKIBRAKA",
+      "isi": "Pendaftaran dan seleksi anggota baru Paskibraka SMP Negeri 02 Martapura dibuka untuk seluruh siswa kelas VII dan VIII."
+    }
+  ],
+  "guru": [
+    {
+      "nama": "Budi Santoso, S.Pd.",
+      "nip": "19850412 201001 1 004",
+      "mapel": "Matematika",
+      "foto": ""
+    }
+  ],
+  "administrasi": [
+    {
+      "nama": "Siti Aminah, S.E.",
+      "jabatan": "Kepala Tata Usaha",
+      "foto": ""
+    }
+  ],
+  "prestasi_siswa": [
+    {
+      "judul": "Juara 1 Olimpiade Sains Nasional (OSN) IPA",
+      "nama_siswa": "Ahmad Fauzan",
+      "tingkat": "Kabupaten OKU Timur",
+      "foto": ""
+    }
+  ],
+  "ekskul": [
+    {
+      "nama": "Pramuka",
+      "pembina": "Dewi Lestari, S.Pd.",
+      "deskripsi": "Kegiatan rutin setiap hari Jumat sore untuk melatih kedisiplinan dan kepemimpinan siswa.",
+      "foto": "",
+      "video_url": ""
+    }
+  ]
+}

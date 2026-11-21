@@ -1,0 +1,69 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "assets"
+public_folder: "assets"
+
+collections:
+  - name: "konten_sekolah"
+    label: "Kelola Konten Website"
+    files:
+      - label: "Data Utama SMPN 02 Martapura"
+        name: "data_utama"
+        file: "data.json"
+        fields:
+          - label: "Identitas Sekolah"
+            name: "identitas"
+            widget: "object"
+            fields:
+              - { label: "Nama Sekolah", name: "nama", widget: "string", default: "SMP Negeri 02 Martapura" }
+              - { label: "Singkatan", name: "singkatan", widget: "string", default: "SMPN 02 MPA" }
+              - { label: "Logo Sekolah", name: "logo", widget: "image", default: "assets/LOGO SMPN02MPA VERSI 2.png" }
+              - { label: "Sambutan Kepala Sekolah", name: "sambutan", widget: "text" }
+
+          - label: "Pengumuman Terbaru"
+            name: "pengumuman"
+            widget: "list"
+            fields:
+              - { label: "Judul Pengumuman", name: "judul", widget: "string" }
+              - { label: "Tanggal", name: "tanggal", widget: "string" }
+              - { label: "Kategori / Ekskul", name: "kategori", widget: "string" }
+              - { label: "Isi Singkat", name: "isi", widget: "text" }
+
+          - label: "Daftar Guru (PTK)"
+            name: "guru"
+            widget: "list"
+            fields:
+              - { label: "Nama Lengkap & Gelar", name: "nama", widget: "string" }
+              - { label: "NIP", name: "nip", widget: "string", required: false }
+              - { label: "Mata Pelajaran", name: "mapel", widget: "string" }
+              - { label: "Foto Guru", name: "foto", widget: "image", required: false }
+
+          - label: "Tenaga Administrasi"
+            name: "administrasi"
+            widget: "list"
+            fields:
+              - { label: "Nama Lengkap", name: "nama", widget: "string" }
+              - { label: "Jabatan / Bagian", name: "jabatan", widget: "string" }
+              - { label: "Foto Staf", name: "foto", widget: "image", required: false }
+
+          - label: "Pencapaian Siswa"
+            name: "prestasi_siswa"
+            widget: "list"
+            fields:
+              - { label: "Judul Prestasi / Lomba", name: "judul", widget: "string" }
+              - { label: "Nama Siswa / Tim", name: "nama_siswa", widget: "string" }
+              - { label: "Tingkat (Kabupaten/Provinsi/Nasional)", name: "tingkat", widget: "string" }
+              - { label: "Foto Dokumentasi", name: "foto", widget: "image", required: false }
+
+          - label: "Ekstrakurikuler & Kegiatan"
+            name: "ekskul"
+            widget: "list"
+            fields:
+              - { label: "Nama Ekskul / Kegiatan", name: "nama", widget: "string" }
+              - { label: "Pembina", name: "pembina", widget: "string" }
+              - { label: "Deskripsi / Pencapaian", name: "deskripsi", widget: "text" }
+              - { label: "Foto Kegiatan", name: "foto", widget: "image", required: false }
+              - { label: "Link Video YouTube (Opsional)", name: "video_url", widget: "string", required: false }
+              
