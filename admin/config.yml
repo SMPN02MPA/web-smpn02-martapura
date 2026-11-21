@@ -2,6 +2,46 @@ backend:
   name: git-gateway
   branch: main
 
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
+
+collections:
+  - name: "database"
+    label: "Data Website"
+    files:
+      - file: "data.json"
+        label: "Database Sekolah"
+        name: "data_sekolah"
+        fields:
+          # --- FITUR PANEL PROFIL & GALERI (YANG BARU) ---
+          - name: "profil_sekolah"
+            label: "Panel Profil & Galeri"
+            widget: "list"
+            summary: "{{fields.judul}}"
+            fields:
+              - name: "judul"
+                label: "Judul Panel (Contoh: Identitas Sekolah, Kepsek)"
+                widget: "string"
+              - name: "deskripsi"
+                label: "Deskripsi Panel"
+                widget: "text"
+                required: false
+              - name: "galeri"
+                label: "Galeri Foto Khusus Panel Ini"
+                widget: "list"
+                summary: "{{fields.keterangan}}"
+                fields:
+                  - name: "foto"
+                    label: "Upload Foto"
+                    widget: "image"
+                  - name: "keterangan"
+                    label: "Keterangan Foto (Maks 1 kalimat)"
+                    widget: "string"
+                    required: false 
+backend:
+  name: git-gateway
+  branch: main
+
 media_folder: "assets"
 public_folder: "assets"
 
