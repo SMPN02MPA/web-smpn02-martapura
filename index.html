@@ -324,31 +324,27 @@
         `;
       } 
       
-      // HALAMAN PROFIL SEKOLAH (JUDUL -> DESKRIPSI -> SWIPE GALERI)
+     // HALAMAN PROFIL SEKOLAH (JUDUL -> DESKRIPSI -> FOTO/GALERI)
       else if (page === 'profil') {
         titleEl.textContent = 'Profil Sekolah';
         container.innerHTML = `
           <div class="space-y-8">
             
-            <!-- PANEL 1: IDENTITAS SEKOLAH -->
+            <!-- PANEL 1: IDENTITAS SEKOLAH (Swipe) -->
             <div class="bg-white rounded-3xl border border-slate-200/70 p-6 lg:p-8 shadow-sm">
               <h2 class="text-2xl md:text-3xl font-bold text-indigo-700 mb-3">Identitas Sekolah</h2>
               <p class="text-sm md:text-base text-slate-600 leading-relaxed mb-6">
                 SMP Negeri 02 Martapura adalah instansi pendidikan menengah pertama berstatus negeri yang berlokasi di Kabupaten OKU Timur, Sumatera Selatan. Kami berkomitmen untuk mencetak generasi berprestasi, berakhlak mulia, dan berwawasan lingkungan.
               </p>
               
-              <!-- Galeri Foto Identitas (Swipe) -->
               <div class="relative group">
                 <button onclick="scrollGallery('galeri-identitas', -1)" class="absolute left-2 top-[45%] -translate-y-1/2 bg-white/90 backdrop-blur border border-slate-200 w-10 h-10 rounded-full shadow-lg z-10 flex items-center justify-center text-slate-600 hover:text-indigo-600 hover:bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <i class="fas fa-chevron-left"></i>
                 </button>
                 
                 <div id="galeri-identitas" class="profil-gallery flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 scroll-smooth">
-                  <!-- Slot Foto 1 -->
                   <img src="assets/foto-identitas1.jpg" alt="Foto 1" class="snap-center shrink-0 w-72 md:w-80 h-48 md:h-56 object-cover rounded-2xl border border-slate-200/70 shadow-sm bg-slate-100" />
-                  <!-- Slot Foto 2 -->
                   <img src="assets/foto-identitas2.jpg" alt="Foto 2" class="snap-center shrink-0 w-72 md:w-80 h-48 md:h-56 object-cover rounded-2xl border border-slate-200/70 shadow-sm bg-slate-100" />
-                  <!-- Slot Foto 3 -->
                   <img src="assets/foto-identitas3.jpg" alt="Foto 3" class="snap-center shrink-0 w-72 md:w-80 h-48 md:h-56 object-cover rounded-2xl border border-slate-200/70 shadow-sm bg-slate-100" />
                 </div>
                 
@@ -358,14 +354,41 @@
               </div>
             </div>
 
-            <!-- PANEL 2: SARANA & PRASARANA -->
+            <!-- PANEL 2: PROFIL KEPALA SEKOLAH (Satu Foto) -->
+            <div class="bg-white rounded-3xl border border-slate-200/70 p-6 lg:p-8 shadow-sm">
+              <h2 class="text-2xl md:text-3xl font-bold text-indigo-700 mb-3">Profil Kepala Sekolah</h2>
+              <p class="text-sm md:text-base text-slate-600 leading-relaxed mb-6">
+                Beliau adalah pimpinan yang berdedikasi tinggi dalam memajukan kualitas pendidikan dan karakter siswa di SMP Negeri 02 Martapura. 
+                <br><br><strong>Nama:</strong> (Isi Nama Kepala Sekolah)
+                <br><strong>NIP:</strong> (Isi NIP)
+              </p>
+              
+              <!-- Tempat Satu Foto -->
+              <div class="flex justify-start">
+                <img src="assets/foto-kepsek.jpg" alt="Foto Kepala Sekolah" class="w-full md:w-1/2 lg:w-1/3 h-auto object-cover rounded-2xl border border-slate-200/70 shadow-sm bg-slate-100" />
+              </div>
+            </div>
+
+            <!-- PANEL 3: STRUKTUR ORGANISASI (Satu Foto) -->
+            <div class="bg-white rounded-3xl border border-slate-200/70 p-6 lg:p-8 shadow-sm">
+              <h2 class="text-2xl md:text-3xl font-bold text-indigo-700 mb-3">Struktur Organisasi</h2>
+              <p class="text-sm md:text-base text-slate-600 leading-relaxed mb-6">
+                Berikut adalah bagan struktur organisasi serta pembagian tugas di lingkungan SMP Negeri 02 Martapura guna memastikan kelancaran kegiatan operasional dan akademik sekolah.
+              </p>
+              
+              <!-- Tempat Satu Foto (Bagan) -->
+              <div class="flex justify-center">
+                <img src="assets/struktur-organisasi.jpg" alt="Bagan Struktur Organisasi" class="w-full h-auto object-contain rounded-2xl border border-slate-200/70 shadow-sm bg-white" />
+              </div>
+            </div>
+
+            <!-- PANEL 4: SARANA & PRASARANA (Swipe) -->
             <div class="bg-white rounded-3xl border border-slate-200/70 p-6 lg:p-8 shadow-sm">
               <h2 class="text-2xl md:text-3xl font-bold text-indigo-700 mb-3">Sarana & Prasarana</h2>
               <p class="text-sm md:text-base text-slate-600 leading-relaxed mb-6">
                 Untuk menunjang kegiatan belajar mengajar yang optimal, SMP Negeri 02 Martapura dilengkapi dengan berbagai fasilitas, mulai dari ruang kelas yang nyaman, perpustakaan digital, hingga laboratorium IPA dan Komputer.
               </p>
               
-              <!-- Galeri Foto Sarpras (Swipe) -->
               <div class="relative group">
                 <button onclick="scrollGallery('galeri-sarpras', -1)" class="absolute left-2 top-[45%] -translate-y-1/2 bg-white/90 backdrop-blur border border-slate-200 w-10 h-10 rounded-full shadow-lg z-10 flex items-center justify-center text-slate-600 hover:text-indigo-600 hover:bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <i class="fas fa-chevron-left"></i>
@@ -383,14 +406,13 @@
               </div>
             </div>
 
-            <!-- PANEL 3: VISI & MISI -->
+            <!-- PANEL 5: VISI & MISI (Swipe) -->
             <div class="bg-white rounded-3xl border border-slate-200/70 p-6 lg:p-8 shadow-sm">
               <h2 class="text-2xl md:text-3xl font-bold text-indigo-700 mb-3">Visi & Misi</h2>
               <p class="text-sm md:text-base text-slate-600 leading-relaxed mb-6">
                 Visi kami adalah mewujudkan peserta didik yang unggul dalam Imtaq, Iptek, dan berkarakter Profil Pelajar Pancasila.
               </p>
               
-              <!-- Galeri Foto Visi Misi (Swipe) -->
               <div class="relative group">
                 <button onclick="scrollGallery('galeri-visimisi', -1)" class="absolute left-2 top-[45%] -translate-y-1/2 bg-white/90 backdrop-blur border border-slate-200 w-10 h-10 rounded-full shadow-lg z-10 flex items-center justify-center text-slate-600 hover:text-indigo-600 hover:bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <i class="fas fa-chevron-left"></i>
@@ -410,7 +432,6 @@
           </div>
         `;
       }
-      
       // HALAMAN LAINNYA
       else if (page === 'ptk-guru') {
         titleEl.textContent = 'PTK - Daftar Guru';
