@@ -3,7 +3,7 @@ backend:
   branch: main
 
 media_folder: "assets/uploads"
-public_folder: "assets/uploads"
+public_folder: "/assets/uploads"
 
 collections:
   - name: "konten_sekolah"
@@ -13,7 +13,6 @@ collections:
         name: "data_utama"
         file: "data.json"
         fields:
-          # --- IDENTITAS UTAMA ---
           - label: "Identitas Sekolah"
             name: "identitas"
             widget: "object"
@@ -23,33 +22,21 @@ collections:
               - { label: "Logo Sekolah", name: "logo", widget: "image", default: "assets/LOGO SMPN02MPA VERSI 2.png" }
               - { label: "Sambutan Kepala Sekolah", name: "sambutan", widget: "text" }
 
-          # --- FITUR PANEL PROFIL & GALERI (YANG BARU) ---
-          - name: "profil_sekolah"
-            label: "Panel Profil & Galeri"
+          - label: "Panel Profil & Galeri"
+            name: "profil_sekolah"
             widget: "list"
             summary: "{{fields.judul}}"
             fields:
-              - name: "judul"
-                label: "Judul Panel (Contoh: Identitas Sekolah, Kepsek)"
-                widget: "string"
-              - name: "deskripsi"
-                label: "Deskripsi Panel"
-                widget: "text"
-                required: false
-              - name: "galeri"
-                label: "Galeri Foto Khusus Panel Ini"
+              - { label: "Judul Panel (Contoh: Identitas Sekolah, Kepsek)", name: "judul", widget: "string" }
+              - { label: "Deskripsi Panel", name: "deskripsi", widget: "text", required: false }
+              - label: "Galeri Foto Khusus Panel Ini"
+                name: "galeri"
                 widget: "list"
                 summary: "{{fields.keterangan}}"
                 fields:
-                  - name: "foto"
-                    label: "Upload Foto"
-                    widget: "image"
-                  - name: "keterangan"
-                    label: "Keterangan Foto (Maks 1 kalimat)"
-                    widget: "string"
-                    required: false
+                  - { label: "Upload Foto", name: "foto", widget: "image" }
+                  - { label: "Keterangan Foto (Maks 1 kalimat)", name: "keterangan", widget: "string", required: false }
 
-          # --- PENGUMUMAN ---
           - label: "Pengumuman Terbaru"
             name: "pengumuman"
             widget: "list"
@@ -59,7 +46,6 @@ collections:
               - { label: "Kategori / Ekskul", name: "kategori", widget: "string" }
               - { label: "Isi Singkat", name: "isi", widget: "text" }
 
-          # --- PTK (GURU) ---
           - label: "Daftar Guru (PTK)"
             name: "guru"
             widget: "list"
@@ -69,7 +55,6 @@ collections:
               - { label: "Mata Pelajaran", name: "mapel", widget: "string" }
               - { label: "Foto Guru", name: "foto", widget: "image", required: false }
 
-          # --- TENAGA ADMINISTRASI ---
           - label: "Tenaga Administrasi"
             name: "administrasi"
             widget: "list"
@@ -78,7 +63,6 @@ collections:
               - { label: "Jabatan / Bagian", name: "jabatan", widget: "string" }
               - { label: "Foto Staf", name: "foto", widget: "image", required: false }
 
-          # --- PRESTASI SISWA ---
           - label: "Pencapaian Siswa"
             name: "prestasi_siswa"
             widget: "list"
@@ -88,7 +72,6 @@ collections:
               - { label: "Tingkat (Kabupaten/Provinsi/Nasional)", name: "tingkat", widget: "string" }
               - { label: "Foto Dokumentasi", name: "foto", widget: "image", required: false }
 
-          # --- EKSKUL ---
           - label: "Ekstrakurikuler & Kegiatan"
             name: "ekskul"
             widget: "list"
