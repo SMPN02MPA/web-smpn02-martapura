@@ -4,17 +4,24 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SMP Negeri 02 Martapura - Portal Resmi</title>
+  
+  <!-- Tailwind CSS & Fonts -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  
   <style>
     body { font-family: 'Poppins', sans-serif; }
+    
+    /* Scrollbar Styling Sidebar */
     .sidebar-scroll::-webkit-scrollbar { width: 4px; }
     .sidebar-scroll::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    
+    /* Sembunyikan badge bawaan netlify di pojok bawah */
     #netlify-badge, a[href*="netlify.com"][style*="fixed"] { display: none !important; opacity: 0 !important; visibility: hidden !important; }
 
-    /* CSS GALERI CAROUSEL (Mulus, responsif, tanpa scrollbar bawaan) */
+    /* CSS GALERI CAROUSEL (Sistem Geser Mulus) */
     .hide-scroll::-webkit-scrollbar { display: none; }
     .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
     .carousel-container { scroll-snap-type: x mandatory; scroll-behavior: smooth; }
@@ -46,13 +53,7 @@
     <nav class="flex-1 px-4 py-5 space-y-1.5 overflow-y-auto sidebar-scroll text-sm">
       <button onclick="navigate('beranda')" data-nav="beranda" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium transition text-left bg-indigo-600 text-white shadow-lg shadow-indigo-600/20"><i class="fas fa-home w-5 text-center"></i><span>Beranda</span></button>
       <button onclick="navigate('profil')" data-nav="profil" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition text-left"><i class="fas fa-school w-5 text-center"></i><span>Profil Sekolah</span></button>
-      <div>
-        <button onclick="toggleDropdown('dropdown-ptk', 'arrow-ptk')" data-parent="ptk" class="parent-nav w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition"><div class="flex items-center gap-3"><i class="fas fa-chalkboard-teacher w-5 text-center"></i><span>PTK</span></div><i id="arrow-ptk" class="fas fa-chevron-down text-xs transition-transform duration-200"></i></button>
-        <div id="dropdown-ptk" class="hidden pl-9 pr-2 pt-1 space-y-1">
-          <button onclick="navigate('ptk-guru')" data-nav="ptk-guru" data-parent-ref="ptk" class="nav-item w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-800/70 transition">Guru</button>
-          <button onclick="navigate('ptk-admin')" data-nav="ptk-admin" data-parent-ref="ptk" class="nav-item w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-800/70 transition">Tenaga Administrasi</button>
-        </div>
-      </div>
+      <button onclick="navigate('ptk')" data-nav="ptk" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition text-left"><i class="fas fa-chalkboard-teacher w-5 text-center"></i><span>Data PTK</span></button>
       <button onclick="navigate('pengumuman')" data-nav="pengumuman" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition text-left"><i class="fas fa-bullhorn w-5 text-center"></i><span>Pengumuman</span></button>
     </nav>
 
@@ -61,15 +62,13 @@
     </div>
   </aside>
 
-  <!-- Main Content Area -->
+  <!-- Area Konten Utama -->
   <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
-    <header class="bg-white border-b border-slate-200/80 px-6 py-4 flex items-center justify-between sticky top-0 z-20">
-      <div class="flex items-center gap-4">
-        <button onclick="toggleSidebar()" class="lg:hidden p-2 rounded-xl text-slate-600 hover:bg-slate-100"><i class="fas fa-bars text-lg"></i></button>
-        <div>
-          <h1 id="page-title" class="text-lg font-bold text-slate-800">Beranda</h1>
-          <p class="text-xs text-slate-500">Sistem Informasi & Profil SMP Negeri 02 Martapura</p>
-        </div>
+    <header class="bg-white border-b border-slate-200/80 px-6 py-4 flex items-center gap-4 sticky top-0 z-20">
+      <button onclick="toggleSidebar()" class="lg:hidden p-2 rounded-xl text-slate-600 hover:bg-slate-100"><i class="fas fa-bars text-lg"></i></button>
+      <div>
+        <h1 id="page-title" class="text-lg font-bold text-slate-800">Beranda</h1>
+        <p class="text-xs text-slate-500">Sistem Informasi SMP Negeri 02 Martapura</p>
       </div>
     </header>
 
@@ -77,18 +76,22 @@
   </div>
 
   <script>
+    // Data Default (Akan ditimpa oleh data.json)
     let siteData = {
-      identitas: { nama: "SMP Negeri 02 Martapura", singkatan: "SMPN 02 MPA", logo: "assets/LOGO SMPN02MPA VERSI 2.png", sambutan: "Selamat datang di portal resmi." },
-      pengumuman: [], guru: [], administrasi: [],
-      profil_sekolah: [] // INI ARRAY DINAMIS BARU DARI ADMIN PANEL
+      identitas: { nama: "SMP Negeri 02 Martapura", singkatan: "SMPN 02 MPA", logo: "assets/LOGO SMPN02MPA VERSI 2.png", sambutan: "Selamat datang." },
+      pengumuman: [], guru: [], profil_sekolah: []
     };
     let currentPage = 'beranda';
 
+    // Fetch data.json
     async function loadSchoolData() {
       try {
         const response = await fetch('data.json?v=' + new Date().getTime());
-        if (response.ok) { siteData = { ...siteData, ...await response.json() }; }
-      } catch (err) { console.log('Menggunakan data lokal awal.'); }
+        if (response.ok) { 
+          const data = await response.json();
+          siteData = { ...siteData, ...data }; 
+        }
+      } catch (err) { console.log('Gagal memuat data.json, menggunakan data default.'); }
       
       if (siteData.identitas) {
         document.getElementById('school-short-name').textContent = siteData.identitas.singkatan || 'SMPN 02 MPA';
@@ -98,13 +101,35 @@
       renderPage(currentPage);
     }
 
-    // FUNGSI KONTROL CAROUSEL GALERI
+    // Fungsi Navigasi Sidebar
+    function navigate(page) {
+      currentPage = page;
+      document.querySelectorAll('.nav-item').forEach(el => { 
+        el.classList.remove('bg-indigo-600', 'text-white', 'shadow-lg'); 
+        el.classList.add('text-slate-300'); 
+      });
+      
+      const activeBtn = document.querySelector(`[data-nav="${page}"]`);
+      if (activeBtn) {
+        activeBtn.classList.remove('text-slate-300');
+        activeBtn.classList.add('bg-indigo-600', 'text-white', 'shadow-lg');
+      }
+      
+      // Tutup sidebar di HP saat menu diklik
+      if (window.innerWidth < 1024 && !document.getElementById('sidebar').classList.contains('-translate-x-full')) {
+        toggleSidebar();
+      }
+      renderPage(page);
+    }
+
+    // Navigasi Carousel Galeri
     function scrollCarousel(index, direction) {
       const carousel = document.getElementById(`carousel-${index}`);
       const scrollAmount = carousel.clientWidth;
       carousel.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
     }
 
+    // Update Angka Indikator Galeri
     function updateIndicator(index, total) {
       const carousel = document.getElementById(`carousel-${index}`);
       const currentIndex = Math.round(carousel.scrollLeft / carousel.clientWidth) + 1;
@@ -112,67 +137,69 @@
       if(indicator) indicator.textContent = currentIndex;
     }
 
-    function navigate(page) {
-      currentPage = page;
-      document.querySelectorAll('.nav-item').forEach(el => { el.classList.remove('bg-indigo-600', 'text-white', 'shadow-lg'); el.classList.add(el.dataset.parentRef ? 'text-slate-400' : 'text-slate-300'); });
-      document.querySelectorAll('.parent-nav').forEach(el => { el.classList.remove('text-indigo-400', 'bg-slate-800/60'); el.classList.add('text-slate-300'); });
-      
-      const activeBtn = document.querySelector(`[data-nav="${page}"]`);
-      if (activeBtn) {
-        activeBtn.classList.remove('text-slate-300', 'text-slate-400');
-        activeBtn.classList.add('bg-indigo-600', 'text-white', 'shadow-lg');
-        if (activeBtn.dataset.parentRef) document.querySelector(`[data-parent="${activeBtn.dataset.parentRef}"]`).classList.add('text-indigo-400', 'bg-slate-800/60');
-      }
-      if (window.innerWidth < 1024 && !document.getElementById('sidebar').classList.contains('-translate-x-full')) toggleSidebar();
-      renderPage(page);
+    function handleSearch(keyword) {
+      renderPage(currentPage, keyword);
     }
 
+    // Fungsi Utama Render Halaman
     function renderPage(page, filterKeyword = '') {
       const container = document.getElementById('app-content');
       const titleEl = document.getElementById('page-title');
       const kw = filterKeyword.toLowerCase();
 
+      // ================= HALAMAN BERANDA =================
       if (page === 'beranda') {
         titleEl.textContent = 'Beranda';
-        container.innerHTML = `<div class="bg-indigo-950 p-8 rounded-3xl text-white shadow-xl"><h2 class="text-3xl font-bold">${siteData.identitas.nama}</h2><p class="mt-4 text-slate-300">${siteData.identitas.sambutan}</p></div>`;
+        container.innerHTML = `
+          <div class="bg-gradient-to-br from-indigo-900 to-indigo-950 p-8 rounded-3xl text-white shadow-xl flex flex-col md:flex-row gap-6 items-center">
+            <img src="${siteData.identitas.logo}" class="w-24 h-24 object-contain bg-white/10 p-2 rounded-2xl" alt="Logo">
+            <div>
+              <h2 class="text-3xl font-bold">${siteData.identitas.nama}</h2>
+              <p class="mt-3 text-slate-300 leading-relaxed text-sm md:text-base">${siteData.identitas.sambutan}</p>
+            </div>
+          </div>
+        `;
       } 
       
-      // HALAMAN PROFIL DINAMIS TERHUBUNG CMS
+      // ================= HALAMAN PROFIL (PANEL & GALERI) =================
       else if (page === 'profil') {
         titleEl.textContent = 'Profil & Galeri Sekolah';
         
-        // Cek apakah admin sudah membuat panel di CMS
-        if (!siteData.profil_sekolah || siteData.profil_sekolah.length === 0) {
-          container.innerHTML = `<p class="text-sm text-slate-500 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">Belum ada panel profil. Silakan tambah melalui Panel Admin.</p>`;
+        let panelsData = siteData.profil_sekolah || [];
+        if (kw) {
+            panelsData = panelsData.filter(p => p.judul?.toLowerCase().includes(kw) || p.deskripsi?.toLowerCase().includes(kw));
+        }
+
+        if (panelsData.length === 0) {
+          container.innerHTML = `<div class="p-6 bg-white rounded-2xl shadow-sm border border-slate-200 text-slate-500 text-center">Data panel profil tidak ditemukan.</div>`;
           return;
         }
 
-        // Render Panel Dinamis Loop
-        let panelsHTML = siteData.profil_sekolah.map((panel, pIndex) => {
+        let panelsHTML = panelsData.map((panel, pIndex) => {
           let galleryHTML = '';
           let controlsHTML = '';
 
-          // Jika panel punya galeri foto
+          // Jika ada foto di galeri
           if (panel.galeri && panel.galeri.length > 0) {
             const total = panel.galeri.length;
             const slides = panel.galeri.map((item) => `
-              <div class="carousel-slide w-full flex-shrink-0 relative">
-                <img src="${item.foto}" alt="${item.keterangan || panel.judul}" class="w-full h-64 md:h-80 object-cover object-center bg-slate-100" />
-                ${item.keterangan ? `<div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent p-4 pt-10 text-white text-sm font-medium leading-relaxed">${item.keterangan}</div>` : ''}
+              <div class="carousel-slide w-full flex-shrink-0 relative h-64 md:h-96">
+                <img src="${item.foto}" alt="${item.keterangan || panel.judul}" class="w-full h-full object-cover object-center bg-slate-100" />
+                ${item.keterangan ? `<div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-5 pt-16 text-white text-sm md:text-base font-medium leading-relaxed shadow-lg">${item.keterangan}</div>` : ''}
               </div>
             `).join('');
 
-            // Panah dan Indikator (Hanya muncul jika foto > 1)
+            // Tombol Navigasi hanya muncul jika foto lebih dari 1
             if (total > 1) {
               controlsHTML = `
-                <button onclick="scrollCarousel(${pIndex}, -1)" class="absolute left-3 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/80 text-white w-9 h-9 rounded-full flex items-center justify-center transition backdrop-blur-sm z-10"><i class="fas fa-chevron-left text-sm"></i></button>
-                <button onclick="scrollCarousel(${pIndex}, 1)" class="absolute right-3 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/80 text-white w-9 h-9 rounded-full flex items-center justify-center transition backdrop-blur-sm z-10"><i class="fas fa-chevron-right text-sm"></i></button>
-                <div class="absolute top-3 right-3 bg-black/60 text-white text-xs font-bold px-3 py-1 rounded-full backdrop-blur-sm z-10"><span id="indicator-${pIndex}">1</span> / ${total}</div>
+                <button onclick="scrollCarousel(${pIndex}, -1)" class="absolute left-3 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/80 text-white w-10 h-10 rounded-full flex items-center justify-center transition backdrop-blur-md z-10 shadow-lg border border-white/10"><i class="fas fa-chevron-left"></i></button>
+                <button onclick="scrollCarousel(${pIndex}, 1)" class="absolute right-3 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/80 text-white w-10 h-10 rounded-full flex items-center justify-center transition backdrop-blur-md z-10 shadow-lg border border-white/10"><i class="fas fa-chevron-right"></i></button>
+                <div class="absolute top-4 right-4 bg-black/60 text-white text-xs font-bold px-3 py-1.5 rounded-full backdrop-blur-md z-10 border border-white/10"><span id="indicator-${pIndex}">1</span> / ${total}</div>
               `;
             }
 
             galleryHTML = `
-              <div class="relative group rounded-t-2xl overflow-hidden bg-slate-100">
+              <div class="relative group rounded-t-2xl overflow-hidden bg-slate-100 border-b border-slate-200">
                 <div id="carousel-${pIndex}" class="carousel-container flex overflow-x-auto hide-scroll w-full h-full" onscroll="updateIndicator(${pIndex}, ${total})">
                   ${slides}
                 </div>
@@ -182,37 +209,90 @@
           }
 
           return `
-            <div class="bg-white rounded-2xl border border-slate-200/70 shadow-sm flex flex-col mb-8 overflow-hidden">
+            <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition-shadow flex flex-col mb-8 overflow-hidden">
               ${galleryHTML}
               <div class="p-6 md:p-8 space-y-4">
-                <h3 class="font-bold text-xl text-indigo-800 border-b border-slate-100 pb-3">${panel.judul}</h3>
-                <div class="text-sm text-slate-700 leading-relaxed max-w-none whitespace-pre-wrap">${panel.deskripsi || ''}</div>
+                <h3 class="font-bold text-2xl text-indigo-900 border-b border-slate-100 pb-4 inline-flex items-center gap-3">
+                  <i class="fas fa-bookmark text-indigo-500 text-lg"></i> ${panel.judul}
+                </h3>
+                <div class="text-sm md:text-base text-slate-700 leading-relaxed max-w-none whitespace-pre-wrap">${panel.deskripsi || ''}</div>
               </div>
             </div>
           `;
         }).join('');
 
-        container.innerHTML = `
-          <div class="bg-white rounded-2xl border border-slate-200/70 p-6 shadow-sm flex flex-wrap items-center gap-5 mb-8">
-            <img src="${siteData.identitas.logo}" alt="Logo" class="w-16 h-16 object-contain" />
-            <div>
-              <h2 class="text-xl font-bold text-slate-800">${siteData.identitas.nama}</h2>
-              <p class="text-sm text-slate-500">Profil & Fasilitas</p>
-            </div>
-          </div>
-          ${panelsHTML}
-        `;
+        container.innerHTML = panelsHTML;
       }
       
-      // Halaman lainnya tetap disingkat untuk fokus pada profil...
-      else {
-        container.innerHTML = `<p class="p-4 bg-white rounded-xl shadow-sm">Halaman ${page} siap digunakan.</p>`;
+      // ================= HALAMAN PTK (GURU) =================
+      else if (page === 'ptk') {
+        titleEl.textContent = 'Data Pendidik & Tenaga Kependidikan';
+        
+        let ptkData = siteData.guru || [];
+        if (kw) {
+            ptkData = ptkData.filter(g => g.nama?.toLowerCase().includes(kw) || g.jabatan?.toLowerCase().includes(kw));
+        }
+
+        if (ptkData.length === 0) {
+          container.innerHTML = `<div class="p-6 bg-white rounded-2xl shadow-sm border border-slate-200 text-slate-500 text-center">Data PTK belum tersedia atau tidak ditemukan.</div>`;
+          return;
+        }
+
+        const ptkHTML = ptkData.map(g => `
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4 hover:border-indigo-300 transition">
+            <div class="w-14 h-14 rounded-full bg-slate-100 border border-slate-200 overflow-hidden flex-shrink-0">
+               ${g.foto ? `<img src="${g.foto}" class="w-full h-full object-cover">` : `<div class="w-full h-full flex items-center justify-center text-slate-400"><i class="fas fa-user"></i></div>`}
+            </div>
+            <div>
+              <h4 class="font-bold text-slate-800 text-sm md:text-base">${g.nama}</h4>
+              <p class="text-xs text-indigo-600 font-medium">${g.jabatan}</p>
+              ${g.nip ? `<p class="text-[11px] text-slate-500 mt-1">NIP: ${g.nip}</p>` : ''}
+            </div>
+          </div>
+        `).join('');
+
+        container.innerHTML = `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">${ptkHTML}</div>`;
+      }
+
+      // ================= HALAMAN PENGUMUMAN =================
+      else if (page === 'pengumuman') {
+        titleEl.textContent = 'Pengumuman Sekolah';
+        
+        let infoData = siteData.pengumuman || [];
+        if (kw) {
+            infoData = infoData.filter(i => i.judul?.toLowerCase().includes(kw) || i.isi?.toLowerCase().includes(kw));
+        }
+
+        if (infoData.length === 0) {
+          container.innerHTML = `<div class="p-6 bg-white rounded-2xl shadow-sm border border-slate-200 text-slate-500 text-center">Belum ada pengumuman.</div>`;
+          return;
+        }
+
+        const infoHTML = infoData.map(i => `
+          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition">
+            <h4 class="font-bold text-lg text-slate-800 mb-2">${i.judul}</h4>
+            <p class="text-xs text-indigo-500 font-medium mb-3"><i class="far fa-calendar-alt mr-1"></i> ${new Date(i.tanggal).toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'})}</p>
+            <p class="text-sm text-slate-600 whitespace-pre-wrap">${i.isi}</p>
+          </div>
+        `).join('');
+
+        container.innerHTML = `<div class="space-y-4">${infoHTML}</div>`;
       }
     }
 
-    function toggleDropdown(m, a) { document.getElementById(m).classList.toggle('hidden'); document.getElementById(a).classList.toggle('rotate-180'); }
-    function toggleSidebar() { document.getElementById('sidebar').classList.toggle('-translate-x-full'); document.getElementById('sidebarOverlay').classList.toggle('hidden'); }
-    if (window.netlifyIdentity) { window.netlifyIdentity.on("init", user => { if (!user) window.netlifyIdentity.on("login", () => document.location.href = "/admin/"); }); }
+    function toggleSidebar() { 
+      document.getElementById('sidebar').classList.toggle('-translate-x-full'); 
+      document.getElementById('sidebarOverlay').classList.toggle('hidden'); 
+    }
+
+    // Netlify Identity Login Redirect
+    if (window.netlifyIdentity) { 
+      window.netlifyIdentity.on("init", user => { 
+        if (!user) window.netlifyIdentity.on("login", () => document.location.href = "/admin/"); 
+      }); 
+    }
+    
+    // Jalankan Saat Halaman Dimuat
     document.addEventListener('DOMContentLoaded', loadSchoolData);
   </script>
 </body>
